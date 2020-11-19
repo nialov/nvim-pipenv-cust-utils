@@ -52,7 +52,8 @@ So basically, small utils for Python development that are more than likely
 better implemented in several more mature vim/neovim plugins. Do not
 expect this to be a mature plugin.
 
-I will probably continue adding features as I come up with them.
+I will probably continue adding and modifying (beware!) features as I come up
+with them.
 
 ## Requirements
 
