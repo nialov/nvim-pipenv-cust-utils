@@ -9,7 +9,6 @@ let g:loaded_nvim_cust_utils = 1
 lua lua_utils = require('lua_utils')
 
 let g:pytesting_ready = 0
-let g:pytesting_toggle = 0
 
 augroup PythonMake
     autocmd!
@@ -151,10 +150,3 @@ endfunction
 
 " command! Pytesting call s:TogglePytesting()
 command! Pytest call s:LocationalPytest()
-
-if exists("g:nvim_pipenv_utils_map")
-    if g:nvim_pipenv_utils_map
-        nnoremap <F5> :Pytest<CR>
-    endif
-endif
-
