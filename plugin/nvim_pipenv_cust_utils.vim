@@ -23,7 +23,7 @@ function s:SetupPythonEnv() abort
     endif
 endfunction
 
-function! s:SetVirtEnv(job_id, data, event) abort
+function! g:SetVirtEnv(job_id, data, event) abort
     " Inserts pipenv virtualenv bin path as first item in $PATH
     " if the bin path is already not on $PATH
     if len(a:data) == 0
@@ -59,7 +59,7 @@ function! s:VirtEnvGet() abort
     else
         execute "cd %:p:h"
     endif
-    let s:jobid = jobstart("pipenv run which python3", {'on_stdout': "s:SetVirtEnv"})
+    let s:jobid = jobstart("pipenv run which python3", {'on_stdout': "g:SetVirtEnv"})
 endfunction
 
 function s:CheckForPipfile() abort
