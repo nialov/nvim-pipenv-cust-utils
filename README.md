@@ -30,6 +30,10 @@ it in anyway makes sense for you to use.
     a Python file.
   * The class or function name is used as the `-k` pytest argument.
   * If you are in a class method, class name is still used as the `-k` argument.
+  * If you not in a class nor a function the current filename (minus .py) is
+    used.
+  * If you do not name your tests according to classes and functions they
+    correspondingly test, this method will fail to capture the right tests.
 
 ```VimL
 " Locational pytest can be done with command:
