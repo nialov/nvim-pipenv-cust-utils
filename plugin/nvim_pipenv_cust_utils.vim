@@ -1,4 +1,4 @@
-" Only load if not already loaded.
+" Only load if not already loaded and compatible.
 if exists('g:loaded_nvim_cust_utils') || &cp
   finish
 endif
@@ -62,12 +62,14 @@ function! s:VirtEnvGet() abort
 endfunction
 
 function s:CheckForPipfile() abort
-    " Checks for Pipfile in current directory and one above
+    " Checks for Pipfile in current directory and two above
     " Returns 1 if found and 0 otherwise
     let s:parent = expand("%:p:h")
     let s:parentparent = expand("%:p:h:h")
+    let s:parentparentparent = expand("%:p:h:h:h")
     if filereadable(s:parent . "/Pipfile")
                 \ || filereadable(s:parentparent . "/Pipfile")
+                \ || filereadable(s:parentparentparent . "/Pipfile")
         return 1
     else
         return 0
