@@ -42,7 +42,7 @@ function! g:SetVirtEnv(job_id, data, event) abort
             " If PATH does not already contain current pipenv python path ->
             " Insert into the front of PATH
             let $PATH = s:pythonpath . ":" . $PATH
-            CocRestart
+            " CocRestart
         endif
     else
         return
