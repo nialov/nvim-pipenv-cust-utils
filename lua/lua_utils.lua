@@ -2,13 +2,22 @@ local treesit = require 'nvim-treesitter'
 
 local M = {}
 
+M.separator = "\n"
+
 function M.mytransform(line)
-    if line:match('->') then line = line:gsub('.*>>>', '') end
+    -- M.logfile:write("hello")
+    -- local lines = {}
+    -- for s in line:gmatch("[^\r\n]+") do table.insert(lines, s) end
+    -- -- while line:match(">>>") ~= nil do line = line:gsub('.*>>> ', '') end
+
     local matched = line:gsub('%s*[%[%(%{]*%s*$', ''):gsub('def ', ''):gsub(
                         'class ', ''):match('([%a_%d]+)'):gsub(' ', '')
-    -- line = line:gsub('def ', '')
-    -- line = line:gsub('class ', '')
-    -- final = line:match('([%a_%d]+)')
+    -- -- line = line:gsub('def ', '')
+    -- -- line = line:gsub('class ', '')
+    -- -- final = line:match('([%a_%d]+)')
+    -- -- return matched
+
+    -- -- return matched
     return matched
 end
 
@@ -17,10 +26,12 @@ function M.get_curr_parent()
         indicator_size = 100,
         type_patterns = {'class', 'function', 'method'},
         transform_fn = M.mytransform,
-        separator = ' >>> '
+        separator = M.separator
     }
     local curr = treesit.statusline(opts)
-    return curr
+    local lines = {}
+    for s in curr:gmatch("[^\r\n]+") do table.insert(lines, s) end
+    return lines[#lines]
 end
 
 return M
