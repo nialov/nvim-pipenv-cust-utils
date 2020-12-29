@@ -17,31 +17,32 @@ augroup END
 
 function s:SetupPythonEnv() abort
     call s:MakeToRightPython()
-    if s:CheckForPipfile() && $VIRTUAL_ENV == ""
-        call s:VirtEnvGet()
-    endif
+    " Setting virtualenv to pipenv venv is DEPRECATED (29.12.2020)
+    " if s:CheckForPipfile() && $VIRTUAL_ENV == ""
+    "     call s:VirtEnvGet()
+    " endif
 endfunction
 
 function! g:SetVirtEnv(job_id, data, event) abort
     " Inserts pipenv virtualenv bin path as first item in $PATH
     " if the bin path is already not on $PATH
     if len(a:data) == 0
-        echoerr "a:data was empty: " . a:data
+        echoerr 'a:data was empty: ' . a:data
         return
     elseif len(a:data) <= 2
         let s:text = a:data[0]
     elseif len(a:data) > 2
-        echoerr "a:data was of len 2: " . a:data
+        echoerr 'a:data was of len 2: ' . a:data
         return
     endif
-    if a:event == 'stdout' && s:text =~ "python3"
-        let s:pythonpath = substitute(s:text, "/python3", "", "")
+    if a:event == 'stdout' && s:text =~ 'python3'
+        let s:pythonpath = substitute(s:text, '/python3', '', '')
         let $PYTHONPATH = s:pythonpath
         " let $PATH .= ":" . s:pythonpath
-        if !(expand("$PATH") =~ s:pythonpath)
+        if !(expand('$PATH') =~ s:pythonpath)
             " If PATH does not already contain current pipenv python path ->
             " Insert into the front of PATH
-            let $PATH = s:pythonpath . ":" . $PATH
+            let $PATH = s:pythonpath . ':' . $PATH
             " CocRestart
         endif
     else
@@ -53,23 +54,23 @@ endfunction
 function! s:VirtEnvGet() abort
     " Changes vim directory to Rooter (root folder with .git)
     " and then uses pipenv to get the python executable path async.
-    if exists(":Rooter") > 0
+    if exists(':Rooter') > 0
         Rooter
     else
-        execute "cd %:p:h"
+        execute 'cd %:p:h'
     endif
-    let s:jobid = jobstart("pipenv run which python3", {'on_stdout': "g:SetVirtEnv"})
+    let s:jobid = jobstart('pipenv run which python3', {'on_stdout': 'g:SetVirtEnv'})
 endfunction
 
 function s:CheckForPipfile() abort
     " Checks for Pipfile in current directory and two above
     " Returns 1 if found and 0 otherwise
-    let s:parent = expand("%:p:h")
-    let s:parentparent = expand("%:p:h:h")
-    let s:parentparentparent = expand("%:p:h:h:h")
-    if filereadable(s:parent . "/Pipfile")
-                \ || filereadable(s:parentparent . "/Pipfile")
-                \ || filereadable(s:parentparentparent . "/Pipfile")
+    let s:parent = expand('%:p:h')
+    let s:parentparent = expand('%:p:h:h')
+    let s:parentparentparent = expand('%:p:h:h:h')
+    if filereadable(s:parent . '/Pipfile')
+                \ || filereadable(s:parentparent . '/Pipfile')
+                \ || filereadable(s:parentparentparent . '/Pipfile')
         return 1
     else
         return 0
@@ -136,7 +137,7 @@ endfunction
 function! s:LocationalPytest() abort
     " VIRTUAL_ENV is probably checked few too many times.
     if !g:pytesting_ready
-        echoerr "LocationalPytest failed: Not in virtual env or Pipfile not located."
+        echoerr 'LocationalPytest failed: Not in virtual env or Pipfile not located.'
         return
     endif
     " Returns class or function name. If in method -> returns class name.
@@ -144,10 +145,10 @@ function! s:LocationalPytest() abort
     if len(s:pytest_pattern) == 0
         " Use current filename without suffix as pattern when empty
         let s:pytest_pattern =
-                    \ substitute(expand("%:t"), ".". expand("%:e"), "", "")
+                    \ substitute(expand('%:t'), '.'. expand('%:e'), '', '')
     endif
     " echo s:pytest_pattern
-    execute("Make -k " . s:pytest_pattern)
+    execute('Make -k ' . s:pytest_pattern)
 endfunction
 
 " command! Pytesting call s:TogglePytesting()
