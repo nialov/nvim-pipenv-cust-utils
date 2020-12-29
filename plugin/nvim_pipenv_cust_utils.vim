@@ -142,7 +142,7 @@ function! s:LocationalPytest() abort
     endif
     " Returns class or function name. If in method -> returns class name.
     let s:pytest_pattern = v:lua.lua_utils.get_curr_parent()
-    if len(s:pytest_pattern) == 0
+    if empty(s:pytest_pattern)
         " Use current filename without suffix as pattern when empty
         let s:pytest_pattern =
                     \ substitute(expand('%:t'), '.'. expand('%:e'), '', '')
