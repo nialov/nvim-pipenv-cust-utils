@@ -11,20 +11,6 @@ it in anyway makes sense for you to use.
 
 (All experimental and probably dependent on my neovim setup.)
 
-* Looks for Pipfile in the parent folder of current .py file and the parent of
-  parent.
-  * If found -> Checks if `$PATH` contains `$VIRTUAL_ENV`
-    * -> Contains: Does nothing (We are in a virtual environment.)
-    * -> Doesn't contain and `$VIRTUAL_ENV` does not exist:
-      * Uses `pipenv run which python3` to get path to `bin` folder which
-        contains pipenv virtual env Python executable.
-      * Adds the `bin` folder to `$PATH` as the first item.
-      * Restarts coc-nvim. For example coc-pyright gets the right virtual
-        env this way.
-      * Contains `$PATH` manipulation -> Use at your own risk.
-        Might mess up Python calls from neovim if `g:python3_host_prog`
-        is not set.
-
 * Sets makeprg to *pipenv run pytest*
   * With vim-dispatch installed you can now run pytest with :Make
   * The default errorformat seems to be able to catch pytest std output line
@@ -55,13 +41,17 @@ expect this to be a mature plugin.
 I will probably continue adding and modifying (beware!) features as I come up
 with them.
 
+### Alternatives
+
+* vim-test
+
 ## Requirements
 
 Required (my current setup):
 
 * Python 3
-* NVIM v0.5.0-dev
-* With Lua 5.1
+* NVIM NVIM v0.5.0-dev+945-gc3b9c3587
+* LuaJIT 2.1.0-beta3
 * [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 * [vim-dispatch](https://github.com/tpope/vim-dispatch)
 * [coc-nvim](https://github.com/neoclide/coc.nvim)
